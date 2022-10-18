@@ -12,8 +12,26 @@
     <input type="text">
     <button>입력</button>
     <script>
+      const number = parseInt(prompt('몇 명이 참가하나요?'),10);
+      console.log('number', number)
+      alert(number);
+      const yesOrNo = confirm('맞습니까?');
 
-        
+      document.querySelector('input').addEventListener('input', () => {
+        console.log('글자입력')
+
+      });
+
+
+      //이런식으로 변수선언(재사용시 유용하기 때문)을 별도로 해주고 함수형태로 만들어 줘도 됨
+      const onClick = () => {
+        console.log('버튼클릭');
+        return undefined;
+      }
+      // 함수를 호출하는 것이기 때문에 onClick뒤에 ()를 써주지 않는다
+      document.querySelector('button').addEventListener('click',onClick);
+
+
     </script>
     
 </body>
