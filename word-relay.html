@@ -12,13 +12,13 @@
     <input type="text">
     <button>입력</button>
     <script>
-      const number = parseInt(prompt('몇 명이 참가하나요?'),10);
+     /* const number = parseInt(prompt('몇 명이 참가하나요?'),10);
       console.log('number', number)
       alert(number);
       const yesOrNo = confirm('맞습니까?');
 
-      document.querySelector('input').addEventListener('input', () => {
-        console.log('글자입력')
+      document.querySelector('input').addEventListener('input', (event) => {
+        console.log('글자입력', event.target.value);
 
       });
 
@@ -29,7 +29,71 @@
         return undefined;
       }
       // 함수를 호출하는 것이기 때문에 onClick뒤에 ()를 써주지 않는다
-      document.querySelector('button').addEventListener('click',onClick);
+      document.querySelector('button').addEventListener('click',onClick); */
+
+      const number = Number(prompt('몇 명이 참가하나요?'));
+      const $button = document.querySelector('button');
+      const $input = document.querySelector('input');
+      const $word = document.querySelector('#word');
+      const $order = document.querySelector('#order');
+      let word; //제시어
+      let newWord; //새로입력한 단어
+
+      const onClickButton = () => {
+        if (!word) { //제시어가 비어있는가
+          //제시어가 비어있음
+          word = newWord; //입력한 단어가 제시어가 됨(데이터 바꿈)
+          $word.textContent = word; //입력한 단어가 제시어가 됨(화면을 바꿈)
+          
+          const order = Number($order.textContent); //현재순서
+          if(order + 1 > number) {
+            $order.textContent = 1;
+
+          }else {
+            $order.textContent = order+1
+
+          }
+          $input.value =''; //입력버튼을 누른 후 input창을 비움
+          $input.focus();
+        } else {
+          //제시어가 비어있지 않음
+          //제시어가 올바른가/올바르지 않은가
+          if (word[word.length - 1] === newWord[0]) {
+            //올바른가
+            word = newWord; //입력한 단어가 제시어가 됨(데이터 바꿈)
+            $word.textContent = word; //입력한 단어가 제시어가 됨(화면을 바꿈)
+      
+            const order = Number($order.textContent); //현재순서
+            if(order + 1 > number) {
+              $order.textContent = 1;
+
+            }else {
+              $order.textContent = order+1
+
+            }
+            $input.value =''; //입력버튼을 누른 후 input창을 비움
+            $input.focus();
+
+          } else {
+            //올바르지않은가
+            alert("올바르지 않습니다")
+            $input.value =''; //입력버튼을 누른 후 input창을 비움
+            $input.focus();
+
+          }
+
+        }
+
+      };
+
+      const onInput = (event) => {
+        newWord = event.target.value;
+        //event에 들어간 새로 입력되는 value값을 newWord에 저장
+
+      };
+
+      $button.addEventListener('click', onClickButton);
+      $input.addEventListener('input', onInput);
 
 
     </script>
