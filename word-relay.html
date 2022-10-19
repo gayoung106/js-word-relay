@@ -40,7 +40,7 @@
       let newWord; //새로입력한 단어
 
       const onClickButton = () => {
-        if (!word) { //제시어가 비어있는가
+        if (!word || word[word.length - 1] === newWord[0]) { //제시어가 비어있는가
           //제시어가 비어있음
           word = newWord; //입력한 단어가 제시어가 됨(데이터 바꿈)
           $word.textContent = word; //입력한 단어가 제시어가 됨(화면을 바꿈)
@@ -53,38 +53,18 @@
             $order.textContent = order+1
 
           }
-          $input.value =''; //입력버튼을 누른 후 input창을 비움
-          $input.focus();
-        } else {
-          //제시어가 비어있지 않음
-          //제시어가 올바른가/올바르지 않은가
-          if (word[word.length - 1] === newWord[0]) {
-            //올바른가
-            word = newWord; //입력한 단어가 제시어가 됨(데이터 바꿈)
-            $word.textContent = word; //입력한 단어가 제시어가 됨(화면을 바꿈)
-      
-            const order = Number($order.textContent); //현재순서
-            if(order + 1 > number) {
-              $order.textContent = 1;
-
-            }else {
-              $order.textContent = order+1
-
-            }
-            $input.value =''; //입력버튼을 누른 후 input창을 비움
-            $input.focus();
 
           } else {
             //올바르지않은가
             alert("올바르지 않습니다")
-            $input.value =''; //입력버튼을 누른 후 input창을 비움
-            $input.focus();
 
           }
+          $input.value =''; //입력버튼을 누른 후 input창을 비움
+          $input.focus();
 
-        }
+        };
 
-      };
+      
 
       const onInput = (event) => {
         newWord = event.target.value;
