@@ -36,7 +36,7 @@
         if (input.length !== 4) { //4자리 인가
             return alert('4자리 숫자를 입력해 주세요.')
         }
-        if (new Set(input).size !==4) { //중복된 숫자가 있는가
+        if (new Set(input).size !==4) { //중복된 숫자가 있는가(new Set()은 중복을 제외한 배열임 이거는 length가 아닌 size를 사용)
             return alert('중복되지 않게 입력해 주세요.')
         }
         if (tries.includes(input)) {//이미 시도한 값은 아닌가
@@ -45,18 +45,43 @@
         return true;
     }//검사하는 코드(밖으로 뺌)
 
-    $form.addEventListener('submit', (event) => {
-        event.preventDefault(); //기본동작 막기
-        const value = $input.value;
-        $input.value='';
-        if (checkInput(value)) {
-            //문제 없음
-            tries.push(value);
-        } else {
-            //문제 있음
+  
 
-        };
-    })
+    $form.addEventListener('submit', (event) => {
+        event.preventDefault(); //기본동작 막기=새로고침안됨(새로고침하면 numbers랑 answer에 뽑아 둔 숫자(변수)가 날아가기 때문)
+        const value = $input.value;
+        $input.value=''; //다음값 입력할 때 편하라고 비워주는 거임
+        if (!checkInput(value)) {
+            //문제있음
+            return;
+        }
+
+            //문제 없음(undefined는 if문 안에 들어가면 false임)
+        if (answer.join('') === value) { //배열을 문자열로 바꾸는 메서드가 .join이고 문자열에 콤마를 없애려면 ('')이런식으로 작은따옴표를 넣어야 함
+            $logs.textContent = '홈런!';
+            return;
+        }
+        if (tries.length >= 9) {
+            const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`)
+            $logs.appendChild(message);
+            return;
+        }
+            //몇 스트라이크 몇 볼인지 검사
+        let strike = 0;
+        let ball = 0;
+        for (let i = 0; i < answer.length; i++) {
+            const index = value.indexOf(answer[i]);
+            if(index > -1) { //일치하는 숫자 발견
+                if(index === i) { //자릿수도 같음
+                    strike += 1;
+                } else { //숫자만 같음
+                    ball += 1;
+                }
+            }
+        }
+        $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+        tries.push(value);
+    });
 </script>
     
 </body>
